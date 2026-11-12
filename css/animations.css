@@ -1,0 +1,94 @@
+/* ===== SCROLL-REVEAL BASE ===== */
+/* Elements fade in from below */
+.rv{opacity:0;transform:translateY(32px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
+
+/* Slide from left */
+.rv-l{opacity:0;transform:translateX(-40px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1)}
+.rv-l.in{opacity:1;transform:none}
+
+/* Slide from right */
+.rv-r{opacity:0;transform:translateX(40px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1)}
+.rv-r.in{opacity:1;transform:none}
+
+/* Zoom in */
+.rv-z{opacity:0;transform:scale(.90);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.rv-z.in{opacity:1;transform:none}
+
+/* Stagger delays for grid children */
+.rv:nth-child(1),.rv-l:nth-child(1),.rv-r:nth-child(1){transition-delay:0ms}
+.rv:nth-child(2),.rv-l:nth-child(2),.rv-r:nth-child(2){transition-delay:90ms}
+.rv:nth-child(3),.rv-l:nth-child(3),.rv-r:nth-child(3){transition-delay:180ms}
+.rv:nth-child(4),.rv-l:nth-child(4),.rv-r:nth-child(4){transition-delay:270ms}
+.rv:nth-child(5),.rv-l:nth-child(5),.rv-r:nth-child(5){transition-delay:360ms}
+.rv:nth-child(6),.rv-l:nth-child(6),.rv-r:nth-child(6){transition-delay:450ms}
+
+/* ===== HERO CONTENT ANIMATE IN ===== */
+.hc>*{animation:fu .9s both}
+.hc>*:nth-child(1){animation-delay:0s}
+.hc>*:nth-child(2){animation-delay:.14s}
+.hc>*:nth-child(3){animation-delay:.28s}
+.hc>*:nth-child(4){animation-delay:.42s}
+.hi{animation:fu 1s .22s both}
+
+@keyframes fu{
+  from{opacity:0;transform:translateY(28px)}
+  to{opacity:1;transform:none}
+}
+
+/* ===== PAGE HERO FADE ===== */
+.ph .rv{animation:fu .85s .1s both}
+
+/* ===== CARD EFFECTS ===== */
+/* Hover glow pulse on icon */
+@keyframes iconPulse{
+  0%{box-shadow:0 2px 10px rgba(233,155,53,.22)}
+  50%{box-shadow:0 4px 22px rgba(233,155,53,.52)}
+  100%{box-shadow:0 2px 10px rgba(233,155,53,.22)}
+}
+.card:hover>i{animation:iconPulse 1.5s ease-in-out infinite}
+
+/* ===== SHIMMER SHINE ON BUTTONS ===== */
+.btn.or::after{
+  content:"";position:absolute;top:-50%;left:-75%;width:50%;height:200%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);
+  transform:skewX(-20deg);transition:left .6s ease;
+}
+.btn.or:hover::after{left:150%}
+
+/* ===== PROGRESS BAR ANIMATE ===== */
+@keyframes progPulse{0%,100%{opacity:1}50%{opacity:.7}}
+
+/* ===== FLOATING LABEL ANIMATION ===== */
+.fld{position:relative}
+.fld label{transition:color .2s}
+.fld:focus-within label{color:var(--b)}
+
+/* ===== INITIATIVE CARD THUMB HOVER ===== */
+.ic:hover .img{filter:brightness(1.08)}
+.img{transition:filter .3s}
+
+/* ===== BACK TO TOP BOUNCE ===== */
+@keyframes btBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.up.show:hover{animation:btBounce .6s ease-in-out}
+
+/* ===== SECTION HEADING REVEAL ===== */
+.sh h2::after{transition:width .8s .2s cubic-bezier(.22,1,.36,1)}
+
+/* ===== FEED CARD TAG BADGE ===== */
+.tag{
+  display:inline-block;padding:3px 10px;border-radius:999px;
+  background:linear-gradient(90deg,var(--o),#f5b942);
+  color:#1a1a1a;font-weight:700;font-size:.74rem;letter-spacing:.08em;
+  box-shadow:0 2px 8px rgba(233,155,53,.30);
+}
+
+/* ===== BORDER PULSE ON FOCUS ===== */
+@keyframes borderPulse{0%,100%{box-shadow:0 0 0 0 rgba(40,93,143,.4)}50%{box-shadow:0 0 0 6px rgba(40,93,143,.0)}}
+input:focus,select:focus,textarea:focus{animation:borderPulse .6s ease}
+
+/* ===== PREFERS-REDUCED-MOTION SAFETY ===== */
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .rv,.rv-l,.rv-r,.rv-z{opacity:1;transform:none}
+}

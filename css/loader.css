@@ -1,0 +1,108 @@
+/* ===== PAGE LOADER: logo + orange progress ring ===== */
+#page-loader{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;padding:28px;text-align:center;
+  background:radial-gradient(ellipse at 50% 35%,#1e4a7a 0%,#183B63 45%,#0a1e36 100%);
+  transition:opacity .7s ease,visibility .7s ease;
+  animation:ldSafety .01s 5s forwards;
+}
+#page-loader.hide,#page-loader.skip{opacity:0;visibility:hidden;pointer-events:none}
+#page-loader.skip{transition:none}
+.ld-skip #page-loader{display:none}
+
+/* Outer spinning ring */
+.ld-orb{position:relative;width:148px;height:148px;display:grid;place-items:center}
+
+/* Progress ring (conic driven by --p) */
+.ld-orb::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from -90deg,#E99B35 0 var(--p,0%),rgba(255,255,255,.12) var(--p,0%) 100%);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 7px),#000 calc(100% - 6px));
+  mask:radial-gradient(farthest-side,transparent calc(100% - 7px),#000 calc(100% - 6px));
+  transition:--p .15s linear;
+  filter:drop-shadow(0 0 8px rgba(233,155,53,.5));
+}
+
+/* Outer pulsing halo */
+.ld-orb::after{
+  content:"";position:absolute;inset:-16px;border-radius:50%;
+  border:1.5px solid rgba(233,155,53,.3);
+  animation:ldPulse 2s ease-out infinite;
+}
+
+/* Spinning orbit ring */
+.ld-spin{
+  position:absolute;inset:-8px;border-radius:50%;
+  border:2px dashed rgba(255,255,255,.12);
+  animation:ldSpin 8s linear infinite;
+}
+
+/* White logo circle */
+.ld-logo{
+  width:116px;height:116px;border-radius:50%;background:#fff;
+  display:grid;place-items:center;
+  box-shadow:0 12px 40px rgba(0,0,0,.40),0 0 0 4px rgba(255,255,255,.12);
+  animation:ldLogoIn .6s cubic-bezier(.22,1,.36,1) both;
+}
+.ld-logo img{width:88px;height:88px;object-fit:contain}
+
+/* Foundation name */
+.ld-name{
+  font:700 1.1rem Poppins,sans-serif;color:#fff;
+  letter-spacing:.06em;text-transform:uppercase;
+  animation:ldNameIn .7s .2s both;
+  background:linear-gradient(90deg,#fff 0%,#f5b942 50%,#fff 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:ldNameShimmer 2.5s linear infinite,ldNameIn .7s .2s both;
+}
+
+/* Tagline */
+.ld-sub{
+  font:400 .85rem Inter,sans-serif;color:rgba(255,255,255,.65);
+  margin-top:-12px;animation:ldNameIn .7s .4s both;
+}
+
+/* Percentage */
+.ld-pct{
+  font:600 .95rem Poppins,sans-serif;color:#E99B35;min-width:3ch;
+  text-shadow:0 0 12px rgba(233,155,53,.7);
+  animation:ldNameIn .7s .5s both;
+}
+
+/* Decorative floating dots */
+.ld-dots{position:absolute;inset:0;pointer-events:none}
+.ld-dots span{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:rgba(233,155,53,.5);animation:ldDotFloat 3s ease-in-out infinite;
+}
+.ld-dots span:nth-child(1){top:20%;left:15%;animation-delay:0s}
+.ld-dots span:nth-child(2){top:70%;left:80%;animation-delay:.8s}
+.ld-dots span:nth-child(3){top:40%;left:85%;animation-delay:1.6s}
+.ld-dots span:nth-child(4){top:80%;left:20%;animation-delay:2.4s}
+
+@keyframes ldPulse{from{transform:scale(.9);opacity:.8}to{transform:scale(1.22);opacity:0}}
+@keyframes ldSpin{to{transform:rotate(360deg)}}
+@keyframes ldLogoIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes ldNameIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes ldNameShimmer{0%{background-position:0%}100%{background-position:200%}}
+@keyframes ldDotFloat{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-14px);opacity:1}}
+@keyframes ldSafety{to{opacity:0;visibility:hidden;pointer-events:none}}
+
+/* ===== IMAGE SHIMMER SKELETON ===== */
+.img{position:relative}
+.img>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease;border-radius:inherit}
+.img.ready>img{opacity:1}
+.img.ready>span{display:none}
+.img.loading::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,transparent 25%,rgba(255,255,255,.25) 50%,transparent 75%);
+  background-size:200% 100%;animation:imgShimmer 1.4s linear infinite;border-radius:inherit;
+}
+@keyframes imgShimmer{from{background-position:120% 0}to{background-position:-120% 0}}
+
+@media(prefers-reduced-motion:reduce){
+  .ld-orb::after,.ld-spin{display:none}
+  .ld-name{animation:ldNameIn .01s both}
+}
